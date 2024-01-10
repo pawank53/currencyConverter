@@ -5,13 +5,15 @@ import {
   View,
 } from 'react-native';
 import InputCurrency from './src/components/InputField/InputCurrency';
+import CountryCard from './src/components/CountryCard/CountryCard';
 
 
 function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container} >
-      <InputCurrency/>
+      {/* <InputCurrency/> */}
+      <CountryCard/>
     </SafeAreaView>
   );
 }

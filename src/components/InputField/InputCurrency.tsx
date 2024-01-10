@@ -10,9 +10,9 @@ export default function InputCurrency(): React.JSX.Element {
         <FontAwesome name="rocket" size={30} color="#900" />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.rs}>Rs</Text>
+      <FontAwesome name="rupee" size={30} color="#FFF" style={styles.rupee} />
         <TextInput
-          style={styles.input}
+          style={styles.currencyInputField}
           placeholder="Enter amount to convert"
           keyboardType="numeric"
         />
@@ -37,16 +37,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 30,
   },
-  rs: {
-    borderWidth: 2,
-    borderColor: 'red',
-    margin:10,
-    color:'#ffffff'
+  rupee: {
+    margin:10
   },
-  input: {
+  currencyInputField: {
     borderWidth: 2,
     borderColor: 'green',
-    width:200,
+    width:210,
     backgroundColor: '#ffffff',
+    borderRadius:5,
+    paddingLeft: 10,
   },
 });
