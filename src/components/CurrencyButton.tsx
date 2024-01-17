@@ -18,15 +18,14 @@ type CurrencyButtonProps=PropsWithChildren<{
 
 const styles = StyleSheet.create({
     buttonContainer:{
-        alignItems:'center'
+        alignItems:'center',
     },
     flag:{
-        fontSize:26,
-        color:'#FFFFFF',
-        marginBottom:4
+        fontSize:28,
+        color:'#FFFFFF'
     },
     country:{
-        fontSize:20,
+        fontSize:14,
         color:'#de234f'
     }
 })
