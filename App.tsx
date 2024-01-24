@@ -5,10 +5,11 @@ import { currencyByRupee } from './src/Constatnts/constants';
 import CurrencyButton from './src/components/CurrencyButton';
 
 function App(): React.JSX.Element {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [resultValue, setResultValue] = useState('');
   const [targetCurrency, setTargetCurrency] = useState('');
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [clickedData, setClickedData]=useState<Currency | ''>();
 
   const buttonPressed = (targetValue: Currency) => {
     if (!inputValue) {
@@ -20,10 +21,12 @@ function App(): React.JSX.Element {
     }
     const inputAmount = parseFloat(inputValue);
     if (!isNaN(inputAmount)) {
+      setClickedData(targetValue);
       const convertedValue = inputAmount * targetValue.value;
       const result = `${targetValue.symbol} ${convertedValue.toFixed(2)}`;
       setResultValue(result);
       setTargetCurrency(targetValue.name);
+      setButtonClicked(true)
     } else {
       return Snackbar.show({
         text: 'Not a valid number to convert',
@@ -33,48 +36,28 @@ function App(): React.JSX.Element {
     }
   };
 
-  const handleInputChange=(text:any)=>{
-    console.log("text",text);
-    console.log("resultValue",resultValue);
-    console.log("targetCurrency",targetCurrency);
+  const handleInputChange=(text:string)=>{
+    setInputValue(text);
+    if (buttonClicked) {
+      const amount = parseFloat(text);
+      if (!isNaN(amount) && clickedData) {
+        const convertedAmount = amount * clickedData.value;
+        const updatedResult = `${clickedData.symbol} ${convertedAmount.toFixed(2)}`;
+        setResultValue(updatedResult);
+      }
+    }
     if(text===''){
-      console.log("inside",text);
       setInputValue('')
       setResultValue('')
       setTargetCurrency('')
       setButtonClicked(false);
+      setClickedData('');
     }else{
-      setInputValue(text);
+    setInputValue(text);
     }
   }
 
-  const currencyByRupeeMemoized: Currency[] = useMemo(() => {
-    return currencyByRupee;
-  }, [])
   
-  // useEffect(()=>{
-    
-  //   if(buttonClicked){
-  //     if(inputValue){
-  //       const inputAmount = parseFloat(inputValue);
-  //       if (!isNaN(inputAmount)) {
-  //         const targetValue: Currency[] = currencyByRupeeMemoized.map((currency) => ({ ...currency }));
-  //         const convertedValue = inputAmount * targetValue.value;
-  //         const result = `${targetValue.symbol} ${convertedValue.toFixed(2)}`;
-  //         setResultValue(result);
-  //         setTargetCurrency(targetValue.name);
-  //       } else {
-  //         return Snackbar.show({
-  //           text: 'Not a valid number to convert',
-  //           backgroundColor: '#F4BE2C',
-  //           textColor: '#000000',
-  //         });
-  //       }
-  //     }
-      
-  //   }
-  // },[buttonClicked])
-
   return (
     <>
       <View style={styles.container}>
@@ -87,7 +70,7 @@ function App(): React.JSX.Element {
               keyboardType="numeric"
               clearButtonMode="always" // for ios only
               value={inputValue}
-              onChangeText={handleInputChange}
+              onChangeText={(text)=>handleInputChange(text)}
               placeholder="Enter amount in rupee"
             />
           </View>
